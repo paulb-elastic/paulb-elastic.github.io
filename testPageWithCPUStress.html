@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style>
+
+		body {
+			font-size: 20px;
+		}
+
+		#outsideContainer {
+			width: 400px;
+			height: 70px;
+			position: relative;
+			background: lightgreen;
+		}
+
+		#movingSquare {
+			width: 50px;
+			height: 50px;
+			position: absolute;
+			background: CornflowerBlue;
+		}
+
+	</style>
+</head>
+
+<script src="big.js"></script>
+<script>
+
+	var startedAt = (new Date).getTime();
+	var colourBlockPosition = 0;
+	var colourBlockElement;
+	var urlParams = new URLSearchParams(window.location.search);
+	var piPrecision = 10;
+
+	if (urlParams.has('piPrecision')) {
+		piPrecision = parseInt(urlParams.get('piPrecision'));
+	}
+
+	function atan(x) {
+		var preciseX = new Big(x);
+		var result = preciseX;
+		var xSquared = preciseX.times(preciseX);
+
+		var term = preciseX;
+		var divisor = new Big(1);
+
+		while (term.times(new Big(10).pow(piPrecision)) > 1) {
+			divisor = divisor.plus(2);
+			term = term.times(xSquared);
+			result = result.minus(term.div(divisor));
+
+			divisor = divisor.plus(2);
+			term = term.times(xSquared);
+			result = result.plus(term.div(divisor));
+		}
+		return result;
+	}
+		
+	function frame() {
+		document.getElementById('resultOutput').innerHTML = "Working out pi...";
+		Big.DP = piPrecision;
+		var bigOne = new Big(1);
+		document.getElementById('resultOutput').innerHTML = "Pi calculated as: " + ((atan(bigOne.div(5)).times(4)).minus(atan(bigOne.div(239)))).times(4).toPrecision(piPrecision);
+
+		if (colourBlockPosition == 350) {		
+			var finishedAt = (new Date).getTime();
+			var msTaken = finishedAt-startedAt;
+			document.getElementById("resultOutput").innerHTML = "Finished working out pi in " + msTaken + " milliseconds";
+			document.getElementById("finishingNetworkRequest").src = "./1x1.jpg?msTaken=" + msTaken;
+		} else {
+			colourBlockPosition++; 
+			colourBlockElement.style.top = "10px"; 
+			colourBlockElement.style.left = colourBlockPosition + 'px'; 
+			setTimeout(frame, 10);
+		}
+	}
+
+	function start() {
+		document.getElementById("pageDescription").innerHTML = "This page will repeatedly work out pi to " + piPrecision + " decimal places with <strong>each</strong> move of the square image<br>Change the precision with the query string 'piPrecision' (e.g. ?piPrecision=10) - the default is 10";
+		colourBlockElement = document.getElementById("movingSquare");   
+		setTimeout(frame, 10);
+	}
+
+
+</script>
+
+<body onload="start()">
+
+	<p id="pageDescription"></p>
+	<p id="resultOutput"/>
+
+	<div id ="outsideContainer">
+		<div id ="movingSquare"></div>
+	</div>
+
+	<img src="" id="finishingNetworkRequest">
+
+</body>
+
+</html>
