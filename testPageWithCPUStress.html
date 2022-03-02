@@ -27,7 +27,7 @@
 <script src="big.js"></script>
 <script>
 
-	var startedAt = (new Date).getTime();
+	var startedAt;
 	var colourBlockPosition = 0;
 	var colourBlockElement;
 	var urlParams = new URLSearchParams(window.location.search);
@@ -77,6 +77,7 @@
 	}
 
 	function start() {
+		startedAt = (new Date).getTime();
 		document.getElementById("pageDescription").innerHTML = "This page will repeatedly work out pi to " + piPrecision + " decimal places with <strong>each</strong> move of the square image<br>Change the precision with the query string 'piPrecision' (e.g. ?piPrecision=10) - the default is 10";
 		colourBlockElement = document.getElementById("movingSquare");   
 		setTimeout(frame, 10);
