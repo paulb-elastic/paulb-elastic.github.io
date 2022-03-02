@@ -28,8 +28,9 @@
 		function showCount() {
 			nextCount = Math.floor(((new Date).getTime() - startedAt)/1000);
 			document.getElementById('counter').innerText = "Seconds since page loaded: " + nextCount;
-			if (urlParams.has('makeRegularNetworkRequest'))
+			if (urlParams.has('makeRegularNetworkRequest')) {
 				makeNetworkRequest();
+			}
 
 			lastCount = nextCount;
 			setTimeout(showCount, 100);
