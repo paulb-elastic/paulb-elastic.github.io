@@ -3,7 +3,7 @@
 	<head>
 		<style>
 			body {
-				font-size: 30px;
+				font-size: 20px;
 			}
 			#pageTitleDisplay {
 				font-size: 60px;
@@ -13,9 +13,11 @@
 
 	<script>
 		var startedAt = (new Date).getTime();
+		var urlParams = new URLSearchParams(window.location.search);
+		var lastCount = 0;
+		var nextCount = 0;
 
-		function showPageAndCount() {
-			var urlParams = new URLSearchParams(window.location.search);
+		function showPageAndCount() {	
 			if (urlParams.has('pageTitle')) {
 				document.getElementById('pageTitleDisplay').innerText = urlParams.get('pageTitle');
 			}
@@ -24,9 +26,19 @@
 		}
 
 		function showCount() {
-			document.getElementById('counter').innerText = "Seconds since page loaded: "+Math.floor(((new Date).getTime() - startedAt)/1000);
+			nextCount = Math.floor(((new Date).getTime() - startedAt)/1000);
+			document.getElementById('counter').innerText = "Seconds since page loaded: " + nextCount;
+			if (urlParams.has('makeRegularNetworkRequest'))
+				makeNetworkRequest();
 
+			lastCount = nextCount;
 			setTimeout(showCount, 100);
+		}
+
+		function makeNetworkRequest() {
+			if (nextCount > lastCount) {
+				document.getElementById('networkRequestImage').src="redBox.jpg?count=" + nextCount;
+			}
 		}
 
 	</script>
@@ -42,11 +54,12 @@
 
 <form id="whatPageNext" name="whatPageNext" method="get">
 	What page next?<br>
-	<input id='nextPageTitle' type="text" name="pageTitle">
-	<input id='submit' type="submit" value="Submit">
+	&nbsp;&nbsp;&nbsp;&nbsp;Title for next page: <input id='nextPageTitle' type="text" name="pageTitle"><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;Regular requests?<input id='checkboxMakeRegularNetworkRequest' type="checkbox" name="makeRegularNetworkRequest" value="yes"> (this will make regular network requests on the next page)<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;<input id='submit' type="submit" value="Go to next page">
 </form> 
 
-<p><img src="blueBox.jpg">&nbsp;<img src="redBox.jpg">&nbsp;<img src="greenBox.jpg"></p>
+<p><img src="blueBox.jpg">&nbsp;<img src="greenBox.jpg">&nbsp;<img src="" id="networkRequestImage"></p>
 
 </body>
 
