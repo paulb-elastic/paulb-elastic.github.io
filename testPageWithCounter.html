@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<style>
+			body {
+				font-size: 30px;
+			}
+			#pageTitleDisplay {
+				font-size: 60px;
+			}
+		</style>
+	</head>
+
+	<script>
+		var startedAt = (new Date).getTime();
+
+		function showPageAndCount() {
+			var urlParams = new URLSearchParams(window.location.search);
+			if (urlParams.has('pageTitle')) {
+				document.getElementById('pageTitleDisplay').innerText = urlParams.get('pageTitle');
+			}
+
+			setTimeout(showCount, 100);
+		}
+
+		function showCount() {
+			document.getElementById('counter').innerText = "Seconds since page loaded: "+Math.floor(((new Date).getTime() - startedAt)/1000);
+
+			setTimeout(showCount, 100);
+		}
+
+	</script>
+
+<body onload="showPageAndCount()">
+
+<p id="pageTitleDisplay"/>
+
+<p>Test page will continually count up</p>
+
+<p id="counter"/>
+
+
+<form id="whatPageNext" name="whatPageNext" method="get">
+	What page next?<br>
+	<input id='nextPageTitle' type="text" name="pageTitle">
+	<input id='submit' type="submit" value="Submit">
+</form> 
+
+<p><img src="blueBox.jpg">&nbsp;<img src="redBox.jpg">&nbsp;<img src="greenBox.jpg"></p>
+
+</body>
+
+</html>
