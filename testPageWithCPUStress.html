@@ -67,7 +67,7 @@
 			var finishedAt = (new Date).getTime();
 			var msTaken = finishedAt-startedAt;
 			document.getElementById("resultOutput").innerHTML = "Finished working out pi in " + msTaken + " milliseconds";
-			document.getElementById("finishingNetworkRequest").src = "./1x1.jpg?msTaken=" + msTaken;
+			document.getElementById("finishingNetworkRequest").src = "./msTaken.jpg?" + msTaken;
 		} else {
 			colourBlockPosition++; 
 			colourBlockElement.style.top = "10px"; 
