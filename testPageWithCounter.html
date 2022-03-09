@@ -8,6 +8,10 @@
 			#pageTitleDisplay {
 				font-size: 60px;
 			}
+			#nextPageTitle, #checkboxMakeRegularNetworkRequest, #tailoredRequestURL, #tailoredRequestWaitMS, #tailoredRequestDownloadMS {
+				position: absolute;
+				left: 250px;
+			}
 		</style>
 	</head>
 
@@ -17,9 +21,17 @@
 		var lastCount = 0;
 		var nextCount = 0;
 
-		function showPageAndCount() {	
-			if (urlParams.has('pageTitle')) {
-				document.getElementById('pageTitleDisplay').innerText = urlParams.get('pageTitle');
+		function showPageAndCount() {
+			if (urlParams.has("pageTitle")) {
+				document.getElementById("pageTitleDisplay").innerText = urlParams.get("pageTitle");
+			}
+
+			// Need to include a tailored request?
+			if (urlParams.has("tailoredRequestURL") && urlParams.has("tailoredRequestWaitMS") && urlParams.has("tailoredRequestDownloadMS")) {
+				if (urlParams.get("tailoredRequestURL").length > 0 && urlParams.get("tailoredRequestWaitMS").length > 0 && urlParams.get("tailoredRequestDownloadMS").length > 0) {
+					var tailoredRequest = urlParams.get("tailoredRequestURL") + "?waitMS=" + urlParams.get("tailoredRequestWaitMS") + "&downloadMS=" + urlParams.get("tailoredRequestDownloadMS") + "&quieter";
+					document.getElementById("iframePlaceholder").src = tailoredRequest;
+				}
 			}
 
 			setTimeout(showCount, 100);
@@ -27,8 +39,8 @@
 
 		function showCount() {
 			nextCount = Math.floor(((new Date).getTime() - startedAt)/1000);
-			document.getElementById('counter').innerText = "Seconds since page loaded: " + nextCount;
-			if (urlParams.has('makeRegularNetworkRequest')) {
+			document.getElementById("counter").innerText = "Seconds since page loaded: " + nextCount;
+			if (urlParams.has("makeRegularNetworkRequest")) {
 				makeNetworkRequest();
 			}
 
@@ -38,7 +50,7 @@
 
 		function makeNetworkRequest() {
 			if ((nextCount > lastCount) && nextCount <= 300) {
-				document.getElementById('networkRequestImage').src="redBox.jpg?count=" + nextCount;
+				document.getElementById("networkRequestImage").src="redBox.jpg?count=" + nextCount;
 			}
 		}
 
@@ -52,15 +64,21 @@
 
 <p id="counter"/>
 
-
 <form id="whatPageNext" name="whatPageNext" method="get">
 	What page next?<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;Title for next page: <input id='nextPageTitle' type="text" name="pageTitle"><br>
-	&nbsp;&nbsp;&nbsp;&nbsp;Regular requests?<input id='checkboxMakeRegularNetworkRequest' type="checkbox" name="makeRegularNetworkRequest"> (this will make a network request every second for up to 300 seconds, on the next page)<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;<input id='submit' type="submit" value="Go to next page">
+	&nbsp;&nbsp;&nbsp;&nbsp;Title for next page: <input id="nextPageTitle" type="text" name="pageTitle" size="75"><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;Regular requests?<input id="checkboxMakeRegularNetworkRequest" type="checkbox" name="makeRegularNetworkRequest"><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(this will make a network request every second for up to 300 seconds, on the next page)<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;Include tailored request:<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Tailored req URL: <input id="tailoredRequestURL" type="text" name="tailoredRequestURL" size="75"><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Wait time (ms): <input id="tailoredRequestWaitMS" type="text" name="tailoredRequestWaitMS"><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Download time (ms): <input id="tailoredRequestDownloadMS" type="text" name="tailoredRequestDownloadMS"><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;<input id="submit" type="submit" value="Go to next page">
 </form> 
 
 <p><img src="blueBox.jpg">&nbsp;<img src="greenBox.jpg">&nbsp;<img src="" id="networkRequestImage"></p>
+
+<p><iframe id="iframePlaceholder" src="" width="300" height="40"></iframe></p>
 
 </body>
 
