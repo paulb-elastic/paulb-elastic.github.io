@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head></head>
+
+	<script>
+		var maxRandomNumber = 2;
+		var urlParams = new URLSearchParams(window.location.search);
+
+		if (urlParams.has("maxRandomNumber")) {
+			maxRandomNumber = urlParams.get("maxRandomNumber");
+		}
+
+		function startPage() {
+			document.getElementById("description").innerText = "This page will randomly generate a number from 1.." + maxRandomNumber + " (inclusive)";
+			document.getElementById("displayRandomNumber").innerText = "This page randomly generated number " + (Math.floor(Math.random() * maxRandomNumber) + 1);
+		}
+	</script>
+
+<body onload="startPage()">
+
+<p id="description"></p>
+<p>(set the 'maxRandomNumber' parameter to change the max number)</p>
+
+
+<p id="displayRandomNumber"></p>
+
+</body>
+
+</html>
