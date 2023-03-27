@@ -13,6 +13,7 @@
 		function startPage() {
 			document.getElementById("description").innerText = "This page will randomly generate a number from 1.." + maxRandomNumber + " (inclusive)";
 			document.getElementById("displayRandomNumber").innerText = "This page randomly generated number " + (Math.floor(Math.random() * maxRandomNumber) + 1);
+			document.getElementById("displayDateTime").innerText = "Current date/time: " + new Date();
 		}
 	</script>
 
@@ -21,8 +22,9 @@
 <p id="description"></p>
 <p>(set the 'maxRandomNumber' query string to change the max number)</p>
 
-
 <p id="displayRandomNumber"></p>
+	
+<p id="displayDateTime"></p>
 
 </body>
 
