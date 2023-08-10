@@ -1,0 +1,62 @@
+<html>
+<head>
+  <title>Test Custom Timing Page</title>
+</head>
+<body>
+  <h1>Test Custom Timing Page</h1>
+  <p id="behaviourText"></p>
+  <p>Delayed image will go here:</p>
+  <p><img id="delayedImage" src=""></p>
+  <p>Text is loading:</p>
+  <p id="incrementalLoadingText"></p>
+  <p id="textComplete"></p>
+
+  <script>
+
+    // get the configuration values
+    const urlParams = new URLSearchParams(window.location.search);
+    const imageTtfb = urlParams.get('imageTtfb');
+    const textContentDownload = urlParams.get('textContentDownload');
+    const numAdditionalImageDownloads = urlParams.get('numAdditionalImageDownloads');
+
+    // describe the behaviour of the page
+    const behaviour = "The behaviour of this page will be to:<br>" +
+      "- delay the loading of redBox.png by setting a TTFB (wait) time of " + imageTtfb + " ms <br>" +
+      "- make the content doanload for text.html take " + textContentDownload + " ms <br>" +
+      "- load an additional " + numAdditionalImageDownloads + " blueBox.png images";
+
+    document.getElementById('behaviourText').innerHTML = behaviour;
+
+    // set the image src including the fftb delay as query string
+    document.getElementById('delayedImage').src="redBox.png?ttfb=" + imageTtfb;
+
+    // load the text content for as long as defined (content download)
+    const incrementalLoadingText = document.getElementById("incrementalLoadingText");
+    async function fetchData() {
+      const response = await fetch("text.html?textContentDownload=" + textContentDownload);
+      const reader = response.body.getReader();
+      let result = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          document.getElementById("textComplete").innerText = "Finished loading text";
+          break;
+        }
+
+        result += new TextDecoder().decode(value);
+        incrementalLoadingText.innerText = result;
+      }
+    }
+    fetchData();
+
+    // download additional images (blueBox.png) as configured
+    for (let i = 0; i < numAdditionalImageDownloads; i++) {
+      fetch('blueBox.png?' + i);
+    }
+
+  </script>
+
+</body>
+</html>

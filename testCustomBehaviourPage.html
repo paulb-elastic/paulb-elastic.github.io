@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>Test Specific Page Durations - Service Worker Loader</title>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('testCustomBehaviourWorker.js')
+        .then(registration => {
+          //console.log('Service Worker registered successfully:', registration);
+        })
+        .catch(error => {
+          console.log('Service Worker registration failed:', error);
+        });
+    }
+  </script>
+</head>
+
+<body>
+  <p>This is an initial page just to load the service worker for the second page with controlled timings</p>
+
+  <table border=0>
+    <tr colspan=3>
+      <p>Scenario 1 - delay loading resources</p>
+    </tr>
+    <tr>
+
+      <form action="testCustomBehaviourPage-Scenario-1.html" method="get">
+        <td>&nbsp;&nbsp;&nbsp;</td><td><label>Image TTFB (wait) delay (ms):</label></td><td><input type="text" id="imageTtfb" name="imageTtfb" value="8000"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td><label>Text content download time (ms):</label></td><td><input type="text" id="textContentDownload" name="textContentDownload" value="3000"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td><label>Number of additional image requests (blueBox.png):</label></td><td><input type="text" id="numAdditionalImageDownloads" name="numAdditionalImageDownloads" value="20"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td colspan=2><input type="submit" value="Run scenario 1"></td>
+      </form>
+
+    </tr>
+
+  </table>
+
+</body>
+</html>
