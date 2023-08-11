@@ -7,7 +7,7 @@ journey('Custom Behaviour Journey', ({ page, params }) => {
   });
   
   step('Load initial page', async () => {
-    await page.goto('https://www.becnetworks.co.uk/testing/testCustomBehaviourPage.html');
+    await page.goto('https://paulb-elastic.github.io/testCustomBehaviourPage.html');
   });
   step('Set behaviour configuration', async () => {
     await page.fill('input[name="imageTtfb"]', '8000');
