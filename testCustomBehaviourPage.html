@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Test Specific Page Durations - Service Worker Loader</title>
+  <title>Test Specific Page Behaviour</title>
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -16,12 +16,14 @@
 </head>
 
 <body>
-  <p>This is an initial page just to load the service worker for the second page with controlled timings</p>
+  <h1>Test Specific Page Behaviour</h2>
+
+  <p>This landing page loads the service worker and provides access to configure the behaviour of subsequent pages with different scenarios</p>
 
   <table border=0>
-    <tr colspan=3>
-      <p>Scenario 1 - delay loading resources</p>
-    </tr>
+    <tr><td colspan=3>
+      <p><u>Scenario 1 - delay loading resources</u></p>
+    </td></tr>
     <tr>
 
       <form action="testCustomBehaviourPage-Scenario-1.html" method="get">
@@ -32,6 +34,35 @@
       </form>
 
     </tr>
+
+    <tr><td colspan=3>&nbsp;</td></tr>
+
+  </table>
+  <table border=0>
+
+    <tr><td colspan=5>
+      <p><u>Scenario 2 - defined HTTP response codes</u></p>
+    </td></tr>
+    <tr>
+
+      <form action="testCustomBehaviourPage-Scenario-2.html" method="get">
+        <td>&nbsp;&nbsp;&nbsp;</td><td><label>HTTP Response:</label></td><td><input type="text" id="httpResponse1Code" name="httpResponse1Code" value="400"></td>
+          <td>number of them: </td><td><input type="text" id="httpResponse1Number" name="httpResponse1Number" value="0"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td><label>HTTP Response:</label></td><td><input type="text" id="httpResponse2Code" name="httpResponse2Code" value="401"></td>
+          <td>number of them: </td><td><input type="text" id="httpResponse2Number" name="httpResponse2Number" value="0"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td><label>HTTP Response:</label></td><td><input type="text" id="httpResponse3Code" name="httpResponse3Code" value="404"></td>
+          <td>number of them: </td><td><input type="text" id="httpResponse3Number" name="httpResponse3Number" value="0"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td><label>HTTP Response:</label></td><td><input type="text" id="httpResponse4Code" name="httpResponse4Code" value="500"></td>
+          <td>number of them: </td><td><input type="text" id="httpResponse4Number" name="httpResponse4Number" value="0"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td><label>HTTP Response:</label></td><td><input type="text" id="httpResponse5Code" name="httpResponse5Code" value="503"></td>
+          <td>number of them: </td><td><input type="text" id="httpResponse5Number" name="httpResponse5Number" value="0"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td colspan=3><label>301 redirect requests - recursive depth (or zero for no 301s):</label></td><td><input type="text" id="redirect301Depth" name="redirect301Depth" value="0"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td colspan=3><label>302 redirect requests - recursive depth (or zero for no 302s):</label></td><td><input type="text" id="redirect302Depth" name="redirect302Depth" value="0"></td></tr>
+        <td>&nbsp;&nbsp;&nbsp;</td><td colspan=2><input type="submit" value="Run scenario 2"></td>
+      </form>
+
+    </tr>
+
 
   </table>
 

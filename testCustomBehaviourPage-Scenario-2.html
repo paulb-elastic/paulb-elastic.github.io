@@ -1,0 +1,80 @@
+<html>
+<head>
+  <title>Test HTTP Response Codes Page</title>
+</head>
+<body>
+  <h1>Test HTTP Response Codes Page</h1>
+  <p id="behaviourText"></p>
+
+  <script>
+
+    // get the configuration values
+    const urlParams = new URLSearchParams(window.location.search);
+    const httpResponse1Code = parseInt(urlParams.get('httpResponse1Code'));
+    const httpResponse1Number = parseInt(urlParams.get('httpResponse1Number'));
+    const httpResponse2Code = parseInt(urlParams.get('httpResponse2Code'));
+    const httpResponse2Number = parseInt(urlParams.get('httpResponse2Number'));
+    const httpResponse3Code = parseInt(urlParams.get('httpResponse3Code'));
+    const httpResponse3Number = parseInt(urlParams.get('httpResponse3Number'));
+    const httpResponse4Code = parseInt(urlParams.get('httpResponse4Code'));
+    const httpResponse4Number = parseInt(urlParams.get('httpResponse4Number'));
+    const httpResponse5Code = parseInt(urlParams.get('httpResponse5Code'));
+    const httpResponse5Number = parseInt(urlParams.get('httpResponse5Number'));
+    const redirect301Depth = parseInt(urlParams.get('redirect301Depth'));
+    const redirect302Depth = parseInt(urlParams.get('redirect302Depth'));
+
+    // describe the behaviour of the page
+    let behaviour = "The behaviour of this page will include requests with the following response codes:<br>" +
+      "- " + httpResponse1Code + " responses: " + httpResponse1Number + " <br>" +
+      "- " + httpResponse2Code + " responses: " + httpResponse2Number + " <br>" +
+      "- " + httpResponse3Code + " responses: " + httpResponse3Number + " <br>" +
+      "- " + httpResponse4Code + " responses: " + httpResponse4Number + " <br>" +
+      "- " + httpResponse5Code + " responses: " + httpResponse5Number + " <br>";
+
+    // Handle any 301 redirects
+    if (!isNaN(redirect301Depth) && redirect301Depth > 0) {
+      behaviour += "- 301 redirect to a recursive depth of: " + redirect301Depth + " <br>";
+      document.write("<img src='" + 'redirect301.png?redirectTimes=' + redirect301Depth + '&redirectInstance=1' + "'>");
+      //fetch('redirect301.png?redirectTimes=' + redirect301Depth + '&redirectInstance=1');
+    }
+    else {
+      behaviour += "- No 301 redirects <br>";
+    }
+
+    // Handle any 302 redirects
+    if (!isNaN(redirect302Depth) && redirect302Depth > 0) {
+      behaviour += "- 302 redirect to a recursive depth of: " + redirect302Depth + " <br>";
+      document.write("<img src='" + 'redirect302.png?redirectTimes=' + redirect302Depth + '&redirectInstance=1' + "'>");
+      //fetch('redirect302.png?redirectTimes=' + redirect302Depth + '&redirectInstance=1');
+    }
+    else {
+      behaviour += "- No 302 redirects <br>";
+    }
+
+    document.getElementById('behaviourText').innerHTML = behaviour;
+
+	// httpResponse1
+    for (let i = 0; i < httpResponse1Number; i++) {
+      fetch('customHTTPresponse.png?httpResponse=' + httpResponse1Code);
+    }
+	// httpResponse2
+    for (let i = 0; i < httpResponse2Number; i++) {
+      fetch('customHTTPresponse.png?httpResponse=' + httpResponse2Code);
+    }
+	// httpResponse3
+    for (let i = 0; i < httpResponse3Number; i++) {
+      fetch('customHTTPresponse.png?httpResponse=' + httpResponse3Code);
+    }
+	// httpResponse4
+    for (let i = 0; i < httpResponse4Number; i++) {
+      fetch('customHTTPresponse.png?httpResponse=' + httpResponse4Code);
+    }
+	// httpResponse5
+    for (let i = 0; i < httpResponse5Number; i++) {
+      fetch('customHTTPresponse.png?httpResponse=' + httpResponse5Code);
+    }
+
+  </script>
+
+</body>
+</html>
